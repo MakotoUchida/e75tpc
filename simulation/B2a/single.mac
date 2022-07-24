@@ -1,0 +1,9 @@
+# Macro file for example B2 test
+/run/numberOfThreads 1
+/run/initialize
+/tracking/verbose 0
+#/gun/energy 193 MeV
+#/gun/momentumAmp 133 MeV
+#/gun/particle pi-
+#/gun/direction 0.939693    0.34202    1.32679e-06
+/run/beamOn 10
