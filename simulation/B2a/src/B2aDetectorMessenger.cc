@@ -27,8 +27,8 @@
 /// \file B2aDetectorMessenger.cc
 /// \brief Implementation of the B2aDetectorMessenger class
 
-#include "B2aDetectorMessenger.hh"
-#include "B2aDetectorConstruction.hh"
+#include "B2aDetectorMessenger.h"
+#include "B2aDetectorConstruction.h"
 
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"

@@ -1,7 +1,7 @@
 /// \file B2TrackerHit.cc
 /// \brief Implementation of the B2TrackerHit class
 
-#include "B2TrackerHit.hh"
+#include "B2TrackerHit.h"
 #include "G4UnitsTable.hh"
 #include "G4VVisManager.hh"
 #include "G4Circle.hh"

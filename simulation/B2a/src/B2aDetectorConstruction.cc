@@ -1,9 +1,10 @@
 /// \file B2aDetectorConstruction.cc
 /// \brief Implementation of the B2aDetectorConstruction class
 
-#include "B2aDetectorConstruction.hh"
-#include "B2aDetectorMessenger.hh"
-#include "B2TrackerSD.hh"
+#include "B2aDetectorConstruction.h"
+#include "B2aDetectorMessenger.h"
+#include "B2TrackerSD.h"
+#include "GlobalFileName.h"
 
 #include "G4Material.hh"
 #include "G4NistManager.hh"
@@ -16,7 +17,7 @@
 #include "G4PVPlacement.hh"
 #include "G4GlobalMagFieldMessenger.hh"
 #include "G4AutoDelete.hh"
-#include  "G4Polycone.hh"
+#include "G4Polycone.hh"
 #include "G4Polyhedra.hh"
 
 #include "G4UnionSolid.hh" // To combine two Solids
@@ -34,7 +35,7 @@
 #include "G4SystemOfUnits.hh"
 
 #include "G4Transportation.hh"
-#include "GlobalFileName.hh"
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

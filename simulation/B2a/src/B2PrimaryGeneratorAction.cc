@@ -27,7 +27,7 @@
 /// \file B2PrimaryGeneratorAction.cc
 /// \brief Implementation of the B2PrimaryGeneratorAction class
 
-#include "B2PrimaryGeneratorAction.hh"
+#include "B2PrimaryGeneratorAction.h"
 
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
@@ -41,7 +41,7 @@
 #include "Randomize.hh"
 #include "G4RandomDirection.hh"
 
-#include "GlobalFileName.hh"
+#include "GlobalFileName.h"
 #include <cmath>
 #include <random>
 

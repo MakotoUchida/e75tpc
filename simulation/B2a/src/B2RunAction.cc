@@ -27,7 +27,7 @@
 /// \file B2RunAction.cc
 /// \brief Implementation of the B2RunAction class
 
-#include "B2RunAction.hh"
+#include "B2RunAction.h"
 
 #include "G4Run.hh"
 #include "G4RunManager.hh"
@@ -38,7 +38,7 @@
 #include <stdlib.h>
 #include <string>
 
-#include "GlobalFileName.hh"
+#include "GlobalFileName.h"
 
 using namespace std;
 

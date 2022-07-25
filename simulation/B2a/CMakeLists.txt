@@ -39,7 +39,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include
 # NB: headers are included so they will show up in IDEs
 #
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.h)
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries

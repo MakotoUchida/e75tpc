@@ -5,9 +5,7 @@
 #define B2TrackerSD_h 1
 
 #include "G4VSensitiveDetector.hh"
-
-#include "B2TrackerHit.hh"
-
+#include "B2TrackerHit.h"
 #include <vector>
 
 class G4Step;

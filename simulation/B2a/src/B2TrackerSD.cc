@@ -1,18 +1,20 @@
 /// \file B2TrackerSD.cc
 /// \brief Implementation of the B2TrackerSD class
 
-#include "B2TrackerSD.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
 #include "G4ThreeVector.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 
-#include "B2RunAction.hh"
+
 #include "G4RunManager.hh"
 
 #include "TRandom.h"
 #include "G4SystemOfUnits.hh"
+
+#include "B2TrackerSD.h"
+#include "B2RunAction.h"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <string>
 #include <boost/format.hpp>
-#include "GlobalFileName.hh"
+#include "GlobalFileName.h"
 
 static std::string globalFileName;
 

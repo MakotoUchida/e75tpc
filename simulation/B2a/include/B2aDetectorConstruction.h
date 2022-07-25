@@ -34,7 +34,7 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "tls.hh"
 
-#include "E75MagneticField.hh"
+#include "E75MagneticField.h"
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;

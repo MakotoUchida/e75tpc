@@ -27,9 +27,8 @@
 /// \file exampleB2a.cc
 /// \brief Main program of the B2a example
 
-#include "B2aDetectorConstruction.hh"
-// #include "B2PhysicsList.hh"
-#include "B2ActionInitialization.hh"
+#include "B2aDetectorConstruction.h"
+#include "B2ActionInitialization.h"
 
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
@@ -51,10 +50,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "B2RunAction.hh"
-// #include "E75FileName.hh"
-
-#include "GlobalFileName.hh"
+#include "B2RunAction.h"
+#include "GlobalFileName.h"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 int main(int argc, char** argv)
@@ -64,7 +61,7 @@ int main(int argc, char** argv)
   G4UIExecutive* ui = 0;
   if (argc == 1) {
     ui = new G4UIExecutive(argc, argv);
-  } else if ( argc == 5){
+  } else if (argc == 5) {
     globalSetFileName(argv[2], argv[3], argv[4]);
   } else {
     std::cout << "Invalid arguments" << std::endl;
@@ -72,7 +69,7 @@ int main(int argc, char** argv)
   }
 
   //  if (argc >= 7) {
-  //    
+  //
   //    std::cout << "GlobalGetFileName()  ________________________ "  << std::endl;
   //    GlobalSetrandamEmp();
   //    if (argc >= 8) {

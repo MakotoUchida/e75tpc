@@ -27,11 +27,11 @@
 /// \file B2ActionInitialization.cc
 /// \brief Implementation of the B2ActionInitialization class
 
-#include "B2ActionInitialization.hh"
-#include "B2PrimaryGeneratorAction.hh"
-#include "B2RunAction.hh"
-#include "B2EventAction.hh"
-#include "E75MagneticField.hh"
+#include "B2ActionInitialization.h"
+#include "B2PrimaryGeneratorAction.h"
+#include "B2RunAction.h"
+#include "B2EventAction.h"
+#include "E75MagneticField.h"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

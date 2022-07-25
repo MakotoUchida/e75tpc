@@ -27,7 +27,7 @@
 /// \file B2EventAction.cc
 /// \brief Implementation of the B2EventAction class
 
-#include "B2EventAction.hh"
+#include "B2EventAction.h"
 
 #include "G4Event.hh"
 #include "G4EventManager.hh"

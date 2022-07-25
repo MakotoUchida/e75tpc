@@ -1,7 +1,7 @@
 /// \file E75MagneticField.cc
 /// \brief Implementation of the E75MagneticField class
 
-#include "E75MagneticField.hh"
+#include "E75MagneticField.h"
 #include "G4UnitsTable.hh"
 
 E75MagneticField::E75MagneticField(): G4MagneticField()
