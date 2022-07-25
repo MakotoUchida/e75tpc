@@ -58,11 +58,6 @@ endif()
 #
 set(EXAMPLEB2A_SCRIPTS
   exampleB2.in
-  gui.mac
-  run1.mac
-  run2.mac
-  init_vis.mac
-  vis.mac
   single.mac
   magneticField.txt
   sim.sh

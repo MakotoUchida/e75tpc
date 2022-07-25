@@ -53,43 +53,13 @@ B2PrimaryGeneratorAction::B2PrimaryGeneratorAction()
   G4int nofParticles = 1;
   fParticleGun = new G4ParticleGun(nofParticles);
 
-  srand(GlobalGetrandamIGlo());
-  double randamNormal = 1. + (rand() * (10.0 - 1.0 + 1.0) / (1.0 + RAND_MAX));
-  double randam =  0.00001 * randamNormal ;
-  std::cout << "randam = " << randam << std::endl;
-  const double PI = 3.14159265358979323846;
-  double momIn = GlobalGetmomDGlo();
-  double thetaIn = GlobalGetthetaDGlo();
-  double phiIn = GlobalGetphiDGlo();
-
-  double thetaInRad = (thetaIn / 180.) * PI;
-  double phiInRad = (phiIn / 180.) * PI;
-
-  double xIn = sin(thetaInRad) * cos(phiInRad);
-  // double xIn = sin(thetaInRad) *cos(phiInRad)+randam;
-  double yIn = sin(thetaInRad) * sin(phiInRad);
-  double zIn = cos(thetaInRad);
-
-  std::cout << "@@@@@@@@@@@@ Primary Action Information@@@@@@@@@@@@@@" << std::endl;
-  std::cout << "mom = " << momIn << "  [MeV/c]" << std::endl;
-  std::cout << "thetaIn = " << thetaIn << "  [°]" << std::endl;
-  std::cout << "phiIn = " << phiIn << "  [°]" << std::endl;
-  std::cout << "(xIn, yIn, zIn) = ( " << xIn << " , " << yIn << " , " << zIn << " ) " << std::endl;
-  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
-
   // default particle kinematic
 
   G4ParticleDefinition* particleDefinition
     = G4ParticleTable::GetParticleTable()->FindParticle("pi-");
 
   fParticleGun->SetParticleDefinition(particleDefinition);
-  // デフォルトの粒子の入射方向
-  // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(xIn, yIn, zIn));
-  // 大きさが1のG4ThreeVectorを4πにわたって一様に生成
-  // fParticleGun->SetParticleMomentumDirection(G4RandomDirection());
-  // fParticleGun->SetParticleEnergy(133*MeV);
-  fParticleGun->SetParticleMomentum(momIn * MeV);
+  fParticleGun->SetParticleMomentum(133.0 * MeV);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -122,7 +92,11 @@ void B2PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   }
 
   fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
-
+  G4double cosAlpha = 1. - 2 * G4UniformRand();
+  G4double sinAlpha = std::sqrt(1. - cosAlpha * cosAlpha);
+  G4double psi      = 2.0 * M_PI * G4UniformRand(); //psi uniform in [0, 2*pi]
+  G4ThreeVector dir(sinAlpha * std::cos(psi), sinAlpha * std::sin(psi), cosAlpha);
+  fParticleGun->SetParticleMomentumDirection(dir);
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 

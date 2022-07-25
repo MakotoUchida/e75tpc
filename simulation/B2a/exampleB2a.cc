@@ -64,20 +64,25 @@ int main(int argc, char** argv)
   G4UIExecutive* ui = 0;
   if (argc == 1) {
     ui = new G4UIExecutive(argc, argv);
+  } else if ( argc == 5){
+    globalSetFileName(argv[2], argv[3], argv[4]);
+  } else {
+    std::cout << "Invalid arguments" << std::endl;
+    exit(0);
   }
 
-  if (argc >= 7) {
-    GlobalSetFileName(argv[2], argv[3], argv[4], argv[5], argv[6]);
-    std::cout << "GlobalGetFileName()  ________________________ "  << std::endl;
-    GlobalSetrandamEmp();
-    if (argc >= 8) {
-      GlobalSetrandam(argv[7]);
-    }
-  }
+  //  if (argc >= 7) {
+  //    
+  //    std::cout << "GlobalGetFileName()  ________________________ "  << std::endl;
+  //    GlobalSetrandamEmp();
+  //    if (argc >= 8) {
+  //      GlobalSetrandam(argv[7]);
+  //    }
+  //  }
 
   // Choose the Random engine
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
-  G4Random::setTheSeed(GlobalGetrandamIGlo());
+  G4Random::setTheSeed(12345);
 
   // Construct the default run manager
   //

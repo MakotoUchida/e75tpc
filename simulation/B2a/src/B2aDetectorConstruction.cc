@@ -149,7 +149,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 
   // 磁場の定義
   G4FieldManager* localFieldMgr = nullptr;
-  if (GlobalGetmagneticFieldOnIGlo() == 0) {
+  if (true) {
     G4MagneticField* magField = new G4UniformMagField(G4ThreeVector(0., 0., 2. * tesla));
     std::cout << "->->->----------> UNIFORM Magnetic Field On  <-----------<-<-<- " << std::endl;
     localFieldMgr = new G4FieldManager(magField) ;
@@ -193,7 +193,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
   G4double chamberSpacing = 80 * cm; // from chamber center to center!
 
   G4double chamberWidth = 20.0 * cm; // width of the chambers
-  G4double targetLength =  5.0 * cm; // full length of Target
+  G4double targetLength =  5.0 * cm; // full length of Targe
 
   G4double trackerLength = (fNbOfChambers + 1) * chamberSpacing;
 
@@ -382,7 +382,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 
   // 標的On / Off
   // コマンドライン引数argv[2] を1としたときのみ標的出現
-  if (GlobalGettargetOnIGlo() == 1) {
+  if (false) {
     new G4PVPlacement(0,                            // no rotation
                       G4ThreeVector(), // at (x,y,z)
                       targetLiLV,        // its logical volume

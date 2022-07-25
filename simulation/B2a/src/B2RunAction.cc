@@ -38,8 +38,6 @@
 #include <stdlib.h>
 #include <string>
 
-// #include "E75FileName.hh"
-
 #include "GlobalFileName.hh"
 
 using namespace std;
@@ -49,7 +47,7 @@ using namespace std;
 B2RunAction::B2RunAction()
   : G4UserRunAction()
 {
-  // set printing event number per each 100 events
+  // set printing event number per each 1000 events
   G4RunManager::GetRunManager()->SetPrintProgress(1000);
 }
 
@@ -69,14 +67,14 @@ void B2RunAction::BeginOfRunAction(const G4Run*)
   gRandom->SetSeed(22);
 
   // ~~~~~~~~~~~~~~~~~~SetfilenameROOT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  std::string fileInput = GetfilenameGlo();
+  std::string fileInput = globalGetFileName();
   std::string filenameROOT = fileInput;
-  std::cout << "aaaa filenameROOT = " << filenameROOT << std::endl;
+  std::cout << "filenameROOT = " << filenameROOT << std::endl;
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
   fOutfile = new TFile(filenameROOT.c_str(), "RECREATE"); // output file
-  t1 = new TTree("treeHits", "Hits"); // define the Tree
+  t1 = new TTree("tree", "SimHits"); // define the Tree
   t1->Branch("nHits", &tnHits, "tnHits/I");
   t1->Branch("PadID", &tPadID);
   t1->Branch("PositionX", &tPosX);

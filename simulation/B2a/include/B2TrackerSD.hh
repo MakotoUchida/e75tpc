@@ -18,40 +18,39 @@ class G4HCofThisEvent;
 /// B2Tracker sensitive detector class
 ///
 /// The hits are accounted in hits in ProcessHits() function which is called
-/// by Geant4 kernel at each step. A hit is created with each step with non zero 
+/// by Geant4 kernel at each step. A hit is created with each step with non zero
 /// energy deposit.
 
-class B2TrackerSD : public G4VSensitiveDetector
-{
-  public:
-    B2TrackerSD(const G4String& name, 
-                const G4String& hitsCollectionName);
-    virtual ~B2TrackerSD();
-  
-    // methods from base class
-    virtual void   Initialize(G4HCofThisEvent* hitCollection);
-    virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
-    virtual void   EndOfEvent(G4HCofThisEvent* hitCollection);
+class B2TrackerSD : public G4VSensitiveDetector {
+public:
+  B2TrackerSD(const G4String& name,
+              const G4String& hitsCollectionName);
+  virtual ~B2TrackerSD();
 
-  private:
-    B2TrackerHitsCollection* fHitsCollection;
-    
-        // FOR ROOT
-    G4double PosX, PosY, PosZ;
-    // G4double MomentX, MomentY, MomentZ;
-    G4double PosXS, PosYS, PosZS;
-    G4int PadID;
-    G4int nHits;
-    G4int pastPadID;
-    
-    G4double val;
-      G4int valN;
-    
-    //std::vetor<Double_t> PosX, PosY, PosZ;
-    //std::vetor<Double_t> PosZS;
-    //std::vetor<Int_t> PadID; 
-    // G4double PosXS, PosYS, PosZS;
-    // G4double MomentXS, MomentYS, MomentZS;
+  // methods from base class
+  virtual void   Initialize(G4HCofThisEvent* hitCollection);
+  virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
+  virtual void   EndOfEvent(G4HCofThisEvent* hitCollection);
+
+private:
+  B2TrackerHitsCollection* fHitsCollection;
+
+  // FOR ROOT
+  G4double PosX, PosY, PosZ;
+  // G4double MomentX, MomentY, MomentZ;
+  G4double PosXS, PosYS, PosZS;
+  G4int PadID;
+  G4int nHits;
+  G4int pastPadID;
+
+  G4double val;
+  G4int valN;
+
+  //std::vetor<Double_t> PosX, PosY, PosZ;
+  //std::vetor<Double_t> PosZS;
+  //std::vetor<Int_t> PadID;
+  // G4double PosXS, PosYS, PosZS;
+  // G4double MomentXS, MomentYS, MomentZS;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

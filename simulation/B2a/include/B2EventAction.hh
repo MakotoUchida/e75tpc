@@ -36,14 +36,13 @@
 
 /// Event action class
 
-class B2EventAction : public G4UserEventAction
-{
-  public:
-    B2EventAction();
-    virtual ~B2EventAction();
+class B2EventAction : public G4UserEventAction {
+public:
+  B2EventAction();
+  virtual ~B2EventAction();
 
-    virtual void  BeginOfEventAction(const G4Event* );
-    virtual void    EndOfEventAction(const G4Event* );
+  virtual void  BeginOfEventAction(const G4Event*);
+  virtual void    EndOfEventAction(const G4Event*);
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
