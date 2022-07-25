@@ -44,11 +44,11 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.h)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(exampleB2a exampleB2a.cc ${sources} ${headers})
-target_link_libraries(exampleB2a ${Geant4_LIBRARIES})
+add_executable(g4tpc g4tpc.cc ${sources} ${headers})
+target_link_libraries(g4tpc ${Geant4_LIBRARIES})
 if (ROOT_FOUND)
-  target_link_libraries(exampleB2a ${ROOT_LIBRARIES})
-  set_target_properties(exampleB2a PROPERTIES CXX_STANDARD 17)
+  target_link_libraries(g4tpc ${ROOT_LIBRARIES})
+  set_target_properties(g4tpc PROPERTIES CXX_STANDARD 17)
 endif()
 
 #----------------------------------------------------------------------------
@@ -57,7 +57,7 @@ endif()
 # relies on these scripts being in the current working directory.
 #
 set(EXAMPLEB2A_SCRIPTS
-  exampleB2.in
+  g4tpc.in
   single.mac
   magneticField.txt
   sim.sh
@@ -74,5 +74,5 @@ endforeach()
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS exampleB2a DESTINATION bin)
+install(TARGETS g4tpc DESTINATION bin)
 
