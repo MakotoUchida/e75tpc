@@ -1,7 +1,7 @@
-/// \file B2TrackerHit.cc
-/// \brief Implementation of the B2TrackerHit class
+/// \file TPCTrackerHit.cc
+/// \brief Implementation of the TPCTrackerHit class
 
-#include "B2TrackerHit.h"
+#include "TPCTrackerHit.h"
 #include "G4UnitsTable.hh"
 #include "G4VVisManager.hh"
 #include "G4Circle.hh"
@@ -10,11 +10,11 @@
 
 #include <iomanip>
 
-G4ThreadLocal G4Allocator<B2TrackerHit>* B2TrackerHitAllocator = 0;
+G4ThreadLocal G4Allocator<TPCTrackerHit>* TPCTrackerHitAllocator = 0;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::B2TrackerHit()
+TPCTrackerHit::TPCTrackerHit()
   : G4VHit(),
     fTrackID(-1),
     fChamberNb(-1),
@@ -24,11 +24,11 @@ B2TrackerHit::B2TrackerHit()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::~B2TrackerHit() {}
+TPCTrackerHit::~TPCTrackerHit() {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::B2TrackerHit(const B2TrackerHit& right)
+TPCTrackerHit::TPCTrackerHit(const TPCTrackerHit& right)
   : G4VHit()
 {
   fTrackID   = right.fTrackID;
@@ -39,7 +39,7 @@ B2TrackerHit::B2TrackerHit(const B2TrackerHit& right)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-const B2TrackerHit& B2TrackerHit::operator=(const B2TrackerHit& right)
+const TPCTrackerHit& TPCTrackerHit::operator=(const TPCTrackerHit& right)
 {
   fTrackID   = right.fTrackID;
   fChamberNb = right.fChamberNb;
@@ -51,14 +51,14 @@ const B2TrackerHit& B2TrackerHit::operator=(const B2TrackerHit& right)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4bool B2TrackerHit::operator==(const B2TrackerHit& right) const
+G4bool TPCTrackerHit::operator==(const TPCTrackerHit& right) const
 {
   return (this == &right) ? true : false;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerHit::Draw()
+void TPCTrackerHit::Draw()
 {
   G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
   if (pVVisManager) {
@@ -74,7 +74,7 @@ void B2TrackerHit::Draw()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerHit::Print()
+void TPCTrackerHit::Print()
 {
   G4cout
       << "  trackID: " << fTrackID << " chamberNb: " << fChamberNb

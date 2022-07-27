@@ -24,70 +24,77 @@
 // ********************************************************************
 //
 //
-/// \file B2aDetectorMessenger.cc
-/// \brief Implementation of the B2aDetectorMessenger class
+/// \file TPCRunAction.cc
+/// \brief Implementation of the TPCRunAction class
 
-#include "B2aDetectorMessenger.h"
-#include "B2aDetectorConstruction.h"
+#include "TPCRunAction.h"
 
-#include "G4UIdirectory.hh"
-#include "G4UIcmdWithAString.hh"
-#include "G4UIcmdWithADoubleAndUnit.hh"
+#include "G4Run.hh"
+#include "G4RunManager.hh"
+
+#include "TRandom.h"
+
+#include <string.h>
+#include <stdlib.h>
+#include <string>
+
+#include "GlobalFileName.h"
+
+using namespace std;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2aDetectorMessenger::B2aDetectorMessenger(B2aDetectorConstruction* Det)
-  : G4UImessenger(),
-    fDetectorConstruction(Det)
+TPCRunAction::TPCRunAction()
+  : G4UserRunAction()
 {
-  fB2Directory = new G4UIdirectory("/B2/");
-  fB2Directory->SetGuidance("UI commands specific to this example.");
-
-  fDetDirectory = new G4UIdirectory("/B2/det/");
-  fDetDirectory->SetGuidance("Detector construction control");
-
-  fTargMatCmd = new G4UIcmdWithAString("/B2/det/setTargetMaterial", this);
-  fTargMatCmd->SetGuidance("Select Material of the Target.");
-  fTargMatCmd->SetParameterName("choice", false);
-  fTargMatCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
-
-  fChamMatCmd = new G4UIcmdWithAString("/B2/det/setChamberMaterial", this);
-  fChamMatCmd->SetGuidance("Select Material of the Chamber.");
-  fChamMatCmd->SetParameterName("choice", false);
-  fChamMatCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
-
-  fStepMaxCmd = new G4UIcmdWithADoubleAndUnit("/B2/det/stepMax", this);
-  fStepMaxCmd->SetGuidance("Define a step max");
-  fStepMaxCmd->SetParameterName("stepMax", false);
-  fStepMaxCmd->SetUnitCategory("Length");
-  fStepMaxCmd->AvailableForStates(G4State_Idle);
+  // set printing event number per each 1000 events
+  G4RunManager::GetRunManager()->SetPrintProgress(1000);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2aDetectorMessenger::~B2aDetectorMessenger()
+TPCRunAction::~TPCRunAction()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void TPCRunAction::BeginOfRunAction(const G4Run*)
 {
-  delete fTargMatCmd;
-  delete fChamMatCmd;
-  delete fStepMaxCmd;
-  delete fB2Directory;
-  delete fDetDirectory;
+  //inform the runManager to save random number seed
+  G4RunManager::GetRunManager()->SetRandomNumberStore(false);
+
+  // Set random number
+  gRandom->SetSeed(22);
+
+  // ~~~~~~~~~~~~~~~~~~SetfilenameROOT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  std::string fileInput = globalGetFileName();
+  std::string filenameROOT = fileInput;
+  std::cout << "filenameROOT = " << filenameROOT << std::endl;
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+  fOutfile = new TFile(filenameROOT.c_str(), "RECREATE"); // output file
+  t1 = new TTree("tree", "SimHits"); // define the Tree
+  t1->Branch("nHits", &tnHits, "tnHits/I");
+  t1->Branch("PadID", &tPadID);
+  t1->Branch("PositionX", &tPosX);
+  t1->Branch("PositionY", &tPosY);
+  t1->Branch("PositionZ", &tPosZ);
+  t1->Branch("PositionXS", &tPosXS);
+  t1->Branch("PositionYS", &tPosYS);
+  t1->Branch("PositionZS", &tPosZS);
+
+  TPCRunAction* runAction2 = (TPCRunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
+  runAction2->InitCountEntry();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
+void TPCRunAction::EndOfRunAction(const G4Run*)
 {
-  if (command == fTargMatCmd)
-  { fDetectorConstruction->SetTargetMaterial(newValue);}
-
-  if (command == fChamMatCmd)
-  { fDetectorConstruction->SetChamberMaterial(newValue);}
-
-  if (command == fStepMaxCmd) {
-    fDetectorConstruction
-    ->SetMaxStep(fStepMaxCmd->GetNewDoubleValue(newValue));
-  }
+  fOutfile->cd();
+  t1->Write();
+  fOutfile->Close();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -24,46 +24,39 @@
 // ********************************************************************
 //
 //
-/// \file B2aDetectorMessenger.hh
-/// \brief Definition of the B2aDetectorMessenger class
+/// \file TPCPrimaryGeneratorAction.hh
+/// \brief Definition of the TPCPrimaryGeneratorAction class
 
-#ifndef B2aDetectorMessenger_h
-#define B2aDetectorMessenger_h 1
+#ifndef TPCPrimaryGeneratorAction_h
+#define TPCPrimaryGeneratorAction_h 1
 
+#include "G4VUserPrimaryGeneratorAction.hh"
 #include "globals.hh"
-#include "G4UImessenger.hh"
 
-class B2aDetectorConstruction;
-class G4UIdirectory;
-class G4UIcmdWithAString;
-class G4UIcmdWithADoubleAndUnit;
+class G4ParticleGun;
+class G4Event;
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-/// Messenger class that defines commands for B2aDetectorConstruction.
+/// The primary generator action class with particle gum.
 ///
-/// It implements commands:
-/// - /B2/det/setTargetMaterial name
-/// - /B2/det/setChamberMaterial name
-/// - /B2/det/stepMax value unit
+/// It defines a single particle which hits the Tracker
+/// perpendicular to the input face. The type of the particle
+/// can be changed via the G4 build-in commands of G4ParticleGun class
+/// (see the macros provided with this example).
 
-class B2aDetectorMessenger: public G4UImessenger {
+class TPCPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
 public:
-  B2aDetectorMessenger(B2aDetectorConstruction*);
-  virtual ~B2aDetectorMessenger();
+  TPCPrimaryGeneratorAction();
+  virtual ~TPCPrimaryGeneratorAction();
 
-  virtual void SetNewValue(G4UIcommand*, G4String);
+  virtual void GeneratePrimaries(G4Event*);
+
+  G4ParticleGun* GetParticleGun() {return fParticleGun;}
+
+  // Set methods
+  void SetRandomFlag(G4bool);
 
 private:
-  B2aDetectorConstruction*  fDetectorConstruction;
-
-  G4UIdirectory*           fB2Directory;
-  G4UIdirectory*           fDetDirectory;
-
-  G4UIcmdWithAString*      fTargMatCmd;
-  G4UIcmdWithAString*      fChamMatCmd;
-
-  G4UIcmdWithADoubleAndUnit* fStepMaxCmd;
+  G4ParticleGun*          fParticleGun; // G4 particle gun
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -1,5 +1,5 @@
-/// \file B2TrackerSD.cc
-/// \brief Implementation of the B2TrackerSD class
+/// \file TPCTrackerSD.cc
+/// \brief Implementation of the TPCTrackerSD class
 
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
@@ -13,12 +13,12 @@
 #include "TRandom.h"
 #include "G4SystemOfUnits.hh"
 
-#include "B2TrackerSD.h"
-#include "B2RunAction.h"
+#include "TPCTrackerSD.h"
+#include "TPCRunAction.h"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerSD::B2TrackerSD(const G4String& name,
+TPCTrackerSD::TPCTrackerSD(const G4String& name,
                          const G4String& hitsCollectionName)
   : G4VSensitiveDetector(name),
     fHitsCollection(NULL)
@@ -28,17 +28,17 @@ B2TrackerSD::B2TrackerSD(const G4String& name,
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerSD::~B2TrackerSD()
+TPCTrackerSD::~TPCTrackerSD()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerSD::Initialize(G4HCofThisEvent* hce)
+void TPCTrackerSD::Initialize(G4HCofThisEvent* hce)
 {
   // Create hits collection
 
   fHitsCollection
-    = new B2TrackerHitsCollection(SensitiveDetectorName, collectionName[0]);
+    = new TPCTrackerHitsCollection(SensitiveDetectorName, collectionName[0]);
 
   // Add this collection in hce
 
@@ -54,7 +54,7 @@ void B2TrackerSD::Initialize(G4HCofThisEvent* hce)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
+G4bool TPCTrackerSD::ProcessHits(G4Step* aStep,
                                 G4TouchableHistory*)
 {
 
@@ -68,7 +68,7 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 
 //  if (edep==0.) return false; // θ=58°とかでHitが抜けるのはこいつのせいだった！(2021.12.07)
 
-  B2TrackerHit* newHit = new B2TrackerHit();
+  TPCTrackerHit* newHit = new TPCTrackerHit();
 
   newHit->SetTrackID(aStep->GetTrack()->GetTrackID());
   newHit->SetChamberNb(aStep->GetPreStepPoint()->GetTouchableHandle()
@@ -123,7 +123,7 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
   // TTree *t1 = runAction->GetTTreePtr();
 
   // G4int evtn = 6;
-  B2RunAction* runAction = (B2RunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
+  TPCRunAction* runAction = (TPCRunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
   // sumEntry = runAction->GetCountEntry();
 
   if (strcmp(particlename, "pi-") == 0) {
@@ -208,7 +208,7 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerSD::EndOfEvent(G4HCofThisEvent*)
+void TPCTrackerSD::EndOfEvent(G4HCofThisEvent*)
 {
   if (verboseLevel > 1) {
     G4int nofHits = fHitsCollection->entries();
@@ -220,7 +220,7 @@ void B2TrackerSD::EndOfEvent(G4HCofThisEvent*)
 
   G4int maxEntry = 51000;
   G4int sumEntry;
-  B2RunAction* runAction1 = (B2RunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
+  TPCRunAction* runAction1 = (TPCRunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
   sumEntry = runAction1->GetCountEntry();
   if (runAction1->GettnHits() > 4) {
     if (sumEntry < maxEntry) {

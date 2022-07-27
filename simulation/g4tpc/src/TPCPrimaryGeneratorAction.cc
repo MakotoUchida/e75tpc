@@ -24,10 +24,10 @@
 // ********************************************************************
 //
 //
-/// \file B2PrimaryGeneratorAction.cc
-/// \brief Implementation of the B2PrimaryGeneratorAction class
+/// \file TPCPrimaryGeneratorAction.cc
+/// \brief Implementation of the TPCPrimaryGeneratorAction class
 
-#include "B2PrimaryGeneratorAction.h"
+#include "TPCPrimaryGeneratorAction.h"
 
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
@@ -47,7 +47,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2PrimaryGeneratorAction::B2PrimaryGeneratorAction()
+TPCPrimaryGeneratorAction::TPCPrimaryGeneratorAction()
   : G4VUserPrimaryGeneratorAction()
 {
   G4int nofParticles = 1;
@@ -64,14 +64,14 @@ B2PrimaryGeneratorAction::B2PrimaryGeneratorAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2PrimaryGeneratorAction::~B2PrimaryGeneratorAction()
+TPCPrimaryGeneratorAction::~TPCPrimaryGeneratorAction()
 {
   delete fParticleGun;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+void TPCPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   // This function is called at the begining of event
 

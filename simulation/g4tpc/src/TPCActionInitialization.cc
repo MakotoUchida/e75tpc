@@ -24,77 +24,43 @@
 // ********************************************************************
 //
 //
-/// \file B2RunAction.cc
-/// \brief Implementation of the B2RunAction class
+/// \file TPCActionInitialization.cc
+/// \brief Implementation of the TPCActionInitialization class
 
-#include "B2RunAction.h"
-
-#include "G4Run.hh"
-#include "G4RunManager.hh"
-
-#include "TRandom.h"
-
-#include <string.h>
-#include <stdlib.h>
-#include <string>
-
-#include "GlobalFileName.h"
-
-using namespace std;
+#include "TPCActionInitialization.h"
+#include "TPCPrimaryGeneratorAction.h"
+#include "TPCRunAction.h"
+#include "TPCEventAction.h"
+#include "E75MagneticField.h"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2RunAction::B2RunAction()
-  : G4UserRunAction()
-{
-  // set printing event number per each 1000 events
-  G4RunManager::GetRunManager()->SetPrintProgress(1000);
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-B2RunAction::~B2RunAction()
+// コンストラクタがイニシャライザを使って書かれている
+TPCActionInitialization::TPCActionInitialization()
+  : G4VUserActionInitialization()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2RunAction::BeginOfRunAction(const G4Run*)
+TPCActionInitialization::~TPCActionInitialization()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void TPCActionInitialization::BuildForMaster() const
 {
-  //inform the runManager to save random number seed
-  G4RunManager::GetRunManager()->SetRandomNumberStore(false);
-
-  // Set random number
-  gRandom->SetSeed(22);
-
-  // ~~~~~~~~~~~~~~~~~~SetfilenameROOT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  std::string fileInput = globalGetFileName();
-  std::string filenameROOT = fileInput;
-  std::cout << "filenameROOT = " << filenameROOT << std::endl;
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-  fOutfile = new TFile(filenameROOT.c_str(), "RECREATE"); // output file
-  t1 = new TTree("tree", "SimHits"); // define the Tree
-  t1->Branch("nHits", &tnHits, "tnHits/I");
-  t1->Branch("PadID", &tPadID);
-  t1->Branch("PositionX", &tPosX);
-  t1->Branch("PositionY", &tPosY);
-  t1->Branch("PositionZ", &tPosZ);
-  t1->Branch("PositionXS", &tPosXS);
-  t1->Branch("PositionYS", &tPosYS);
-  t1->Branch("PositionZS", &tPosZS);
-
-  B2RunAction* runAction2 = (B2RunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
-  runAction2->InitCountEntry();
+  SetUserAction(new TPCRunAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2RunAction::EndOfRunAction(const G4Run*)
+// ユーザアクションクラスを定義
+// ここでは必須でもあるTPCPrimaryGeneratorActionの他にRunActionとEventAcyionを追加で定義している
+void TPCActionInitialization::Build() const
 {
-  fOutfile->cd();
-  t1->Write();
-  fOutfile->Close();
+  SetUserAction(new TPCPrimaryGeneratorAction);
+  SetUserAction(new TPCRunAction);
+  SetUserAction(new TPCEventAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

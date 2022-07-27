@@ -24,43 +24,48 @@
 // ********************************************************************
 //
 //
-/// \file B2ActionInitialization.cc
-/// \brief Implementation of the B2ActionInitialization class
+/// \file TPCDetectorMessenger.hh
+/// \brief Definition of the TPCDetectorMessenger class
 
-#include "B2ActionInitialization.h"
-#include "B2PrimaryGeneratorAction.h"
-#include "B2RunAction.h"
-#include "B2EventAction.h"
-#include "E75MagneticField.h"
+#ifndef TPCDetectorMessenger_h
+#define TPCDetectorMessenger_h 1
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#include "globals.hh"
+#include "G4UImessenger.hh"
 
-// コンストラクタがイニシャライザを使って書かれている
-B2ActionInitialization::B2ActionInitialization()
-  : G4VUserActionInitialization()
-{}
+class TPCDetectorConstruction;
+class G4UIdirectory;
+class G4UIcmdWithAString;
+class G4UIcmdWithADoubleAndUnit;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2ActionInitialization::~B2ActionInitialization()
-{}
+/// Messenger class that defines commands for TPCDetectorConstruction.
+///
+/// It implements commands:
+/// - /TPC/det/setTargetMaterial name
+/// - /TPC/det/setChamberMaterial name
+/// - /TPC/det/stepMax value unit
+
+class TPCDetectorMessenger: public G4UImessenger {
+public:
+  TPCDetectorMessenger(TPCDetectorConstruction*);
+  virtual ~TPCDetectorMessenger();
+
+  virtual void SetNewValue(G4UIcommand*, G4String);
+
+private:
+  TPCDetectorConstruction*  fDetectorConstruction;
+
+  G4UIdirectory*           fTPCDirectory;
+  G4UIdirectory*           fDetDirectory;
+
+  G4UIcmdWithAString*      fTargMatCmd;
+  G4UIcmdWithAString*      fChamMatCmd;
+
+  G4UIcmdWithADoubleAndUnit* fStepMaxCmd;
+};
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2ActionInitialization::BuildForMaster() const
-{
-  SetUserAction(new B2RunAction);
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-// ユーザアクションクラスを定義
-// ここでは必須でもあるB2PrimaryGeneratorActionの他にRunActionとEventAcyionを追加で定義している
-void B2ActionInitialization::Build() const
-{
-  SetUserAction(new B2PrimaryGeneratorAction);
-  SetUserAction(new B2RunAction);
-  SetUserAction(new B2EventAction);
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#endif

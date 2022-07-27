@@ -24,55 +24,69 @@
 // ********************************************************************
 //
 //
-/// \file B2EventAction.cc
-/// \brief Implementation of the B2EventAction class
+/// \file TPCDetectorMessenger.cc
+/// \brief Implementation of the TPCDetectorMessenger class
 
-#include "B2EventAction.h"
+#include "TPCDetectorMessenger.h"
+#include "TPCDetectorConstruction.h"
 
-#include "G4Event.hh"
-#include "G4EventManager.hh"
-#include "G4TrajectoryContainer.hh"
-#include "G4Trajectory.hh"
-#include "G4ios.hh"
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-B2EventAction::B2EventAction()
-  : G4UserEventAction()
-{}
+#include "G4UIdirectory.hh"
+#include "G4UIcmdWithAString.hh"
+#include "G4UIcmdWithADoubleAndUnit.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2EventAction::~B2EventAction()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void B2EventAction::BeginOfEventAction(const G4Event*)
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void B2EventAction::EndOfEventAction(const G4Event* event)
+TPCDetectorMessenger::TPCDetectorMessenger(TPCDetectorConstruction* Det)
+  : G4UImessenger(),
+    fDetectorConstruction(Det)
 {
-  // get number of stored trajectories
+  fTPCDirectory = new G4UIdirectory("/TPC/");
+  fTPCDirectory->SetGuidance("UI commands specific to this example.");
 
-  G4TrajectoryContainer* trajectoryContainer = event->GetTrajectoryContainer();
-  G4int n_trajectories = 0;
-  if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
+  fDetDirectory = new G4UIdirectory("/TPC/det/");
+  fDetDirectory->SetGuidance("Detector construction control");
 
-  // periodic printing
-  // std::cout << ">>> Event: " << event->GetEventID()  << std::endl;
-  G4int eventID = event->GetEventID();
-  if (eventID < 100 || eventID % 1000 == 0) {
-    G4cout << ">>> Event: " << eventID  << G4endl;
-    if (trajectoryContainer) {
-      G4cout << "    " << n_trajectories
-             << " trajectories stored in this event." << G4endl;
-    }
-    G4VHitsCollection* hc = event->GetHCofThisEvent()->GetHC(0);
-    G4cout << "    "
-           << hc->GetSize() << " hits stored in this event" << G4endl;
+  fTargMatCmd = new G4UIcmdWithAString("/TPC/det/setTargetMaterial", this);
+  fTargMatCmd->SetGuidance("Select Material of the Target.");
+  fTargMatCmd->SetParameterName("choice", false);
+  fTargMatCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+  fChamMatCmd = new G4UIcmdWithAString("/TPC/det/setChamberMaterial", this);
+  fChamMatCmd->SetGuidance("Select Material of the Chamber.");
+  fChamMatCmd->SetParameterName("choice", false);
+  fChamMatCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+  fStepMaxCmd = new G4UIcmdWithADoubleAndUnit("/TPC/det/stepMax", this);
+  fStepMaxCmd->SetGuidance("Define a step max");
+  fStepMaxCmd->SetParameterName("stepMax", false);
+  fStepMaxCmd->SetUnitCategory("Length");
+  fStepMaxCmd->AvailableForStates(G4State_Idle);
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+TPCDetectorMessenger::~TPCDetectorMessenger()
+{
+  delete fTargMatCmd;
+  delete fChamMatCmd;
+  delete fStepMaxCmd;
+  delete fTPCDirectory;
+  delete fDetDirectory;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void TPCDetectorMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
+{
+  if (command == fTargMatCmd)
+  { fDetectorConstruction->SetTargetMaterial(newValue);}
+
+  if (command == fChamMatCmd)
+  { fDetectorConstruction->SetChamberMaterial(newValue);}
+
+  if (command == fStepMaxCmd) {
+    fDetectorConstruction
+    ->SetMaxStep(fStepMaxCmd->GetNewDoubleValue(newValue));
   }
 }
 

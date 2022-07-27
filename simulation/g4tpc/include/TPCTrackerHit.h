@@ -1,8 +1,8 @@
-/// \file B2TrackerHit.hh
-/// \brief Definition of the B2TrackerHit class
+/// \file TPCTrackerHit.hh
+/// \brief Definition of the TPCTrackerHit class
 
-#ifndef B2TrackerHit_h
-#define B2TrackerHit_h 1
+#ifndef TPCTrackerHit_h
+#define TPCTrackerHit_h 1
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
@@ -16,15 +16,15 @@
 /// and position of charged particles in a selected volume:
 /// - fTrackID, fChamberNB, fEdep, fPos
 
-class B2TrackerHit : public G4VHit {
+class TPCTrackerHit : public G4VHit {
 public:
-  B2TrackerHit();
-  B2TrackerHit(const B2TrackerHit&);
-  virtual ~B2TrackerHit();
+  TPCTrackerHit();
+  TPCTrackerHit(const TPCTrackerHit&);
+  virtual ~TPCTrackerHit();
 
   // operators
-  const B2TrackerHit& operator=(const B2TrackerHit&);
-  G4bool operator==(const B2TrackerHit&) const;
+  const TPCTrackerHit& operator=(const TPCTrackerHit&);
+  G4bool operator==(const TPCTrackerHit&) const;
 
   inline void* operator new (size_t);
   inline void  operator delete (void*);
@@ -62,24 +62,24 @@ private:
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-typedef G4THitsCollection<B2TrackerHit> B2TrackerHitsCollection;
+typedef G4THitsCollection<TPCTrackerHit> TPCTrackerHitsCollection;
 
-extern G4ThreadLocal G4Allocator<B2TrackerHit>* B2TrackerHitAllocator;
+extern G4ThreadLocal G4Allocator<TPCTrackerHit>* TPCTrackerHitAllocator;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-inline void* B2TrackerHit::operator new (size_t)
+inline void* TPCTrackerHit::operator new (size_t)
 {
-  if (!B2TrackerHitAllocator)
-    B2TrackerHitAllocator = new G4Allocator<B2TrackerHit>;
-  return (void*) B2TrackerHitAllocator->MallocSingle();
+  if (!TPCTrackerHitAllocator)
+    TPCTrackerHitAllocator = new G4Allocator<TPCTrackerHit>;
+  return (void*) TPCTrackerHitAllocator->MallocSingle();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-inline void B2TrackerHit::operator delete (void* hit)
+inline void TPCTrackerHit::operator delete (void* hit)
 {
-  B2TrackerHitAllocator->FreeSingle((B2TrackerHit*) hit);
+  TPCTrackerHitAllocator->FreeSingle((TPCTrackerHit*) hit);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

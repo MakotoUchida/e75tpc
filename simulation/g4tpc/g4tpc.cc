@@ -4,8 +4,8 @@
  * Originally implemented by Taki @ Fujioka-lab. 
  */
 
-#include "B2aDetectorConstruction.h"
-#include "B2ActionInitialization.h"
+#include "TPCDetectorConstruction.h"
+#include "TPCActionInitialization.h"
 
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
@@ -27,7 +27,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "B2RunAction.h"
+#include "TPCRunAction.h"
 #include "GlobalFileName.h"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -70,14 +70,14 @@ int main(int argc, char** argv)
 
   // Set mandatory initialization classes
   //
-  runManager->SetUserInitialization(new B2aDetectorConstruction());
+  runManager->SetUserInitialization(new TPCDetectorConstruction());
 
   G4VModularPhysicsList* physicsList = new FTFP_BERT;
   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   runManager->SetUserInitialization(physicsList);
 
   // Set user action classes
-  runManager->SetUserInitialization(new B2ActionInitialization());
+  runManager->SetUserInitialization(new TPCActionInitialization());
 
   // Initialize visualization
   //

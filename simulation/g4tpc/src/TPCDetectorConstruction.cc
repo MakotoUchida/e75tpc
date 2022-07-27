@@ -1,9 +1,9 @@
-/// \file B2aDetectorConstruction.cc
-/// \brief Implementation of the B2aDetectorConstruction class
+/// \file TPCaDetectorConstruction.cc
+/// \brief Implementation of the TPCaDetectorConstruction class
 
-#include "B2aDetectorConstruction.h"
-#include "B2aDetectorMessenger.h"
-#include "B2TrackerSD.h"
+#include "TPCDetectorConstruction.h"
+#include "TPCDetectorMessenger.h"
+#include "TPCTrackerSD.h"
 #include "GlobalFileName.h"
 
 #include "G4Material.hh"
@@ -40,9 +40,9 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4ThreadLocal
-G4GlobalMagFieldMessenger* B2aDetectorConstruction::fMagFieldMessenger = 0;
+G4GlobalMagFieldMessenger* TPCDetectorConstruction::fMagFieldMessenger = 0;
 
-B2aDetectorConstruction::B2aDetectorConstruction()
+TPCDetectorConstruction::TPCDetectorConstruction()
   : G4VUserDetectorConstruction(),
     fNbOfChambers(0),
     fLogicTarget(NULL), fLogicChamber(NULL),
@@ -50,7 +50,7 @@ B2aDetectorConstruction::B2aDetectorConstruction()
     fStepLimit(NULL),
     fCheckOverlaps(true)
 {
-  fMessenger = new B2aDetectorMessenger(this);
+  fMessenger = new TPCDetectorMessenger(this);
 
   fNbOfChambers = 5;
   fLogicChamber = new G4LogicalVolume*[fNbOfChambers];
@@ -58,7 +58,7 @@ B2aDetectorConstruction::B2aDetectorConstruction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2aDetectorConstruction::~B2aDetectorConstruction()
+TPCDetectorConstruction::~TPCDetectorConstruction()
 {
   delete [] fLogicChamber;
   delete fStepLimit;
@@ -67,7 +67,7 @@ B2aDetectorConstruction::~B2aDetectorConstruction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4VPhysicalVolume* B2aDetectorConstruction::Construct()
+G4VPhysicalVolume* TPCDetectorConstruction::Construct()
 {
   // Define materials
   DefineMaterials();
@@ -78,7 +78,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::Construct()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::DefineMaterials()
+void TPCDetectorConstruction::DefineMaterials()
 {
   // Material definition
 
@@ -99,7 +99,7 @@ void B2aDetectorConstruction::DefineMaterials()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
+G4VPhysicalVolume* TPCDetectorConstruction::DefineVolumes()
 {
   G4Material* air  = G4Material::GetMaterial("G4_AIR");
 
@@ -478,7 +478,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
   if (fNbOfChambers > 0) {
     rmaxIncr =  0.5 * (lastLength - firstLength) / (fNbOfChambers - 1);
     if (chamberSpacing  < chamberWidth) {
-      G4Exception("B2aDetectorConstruction::DefineVolumes()",
+      G4Exception("TPCDetectorConstruction::DefineVolumes()",
                   "InvalidSetup", FatalException,
                   "Width>Spacing");
     }
@@ -544,12 +544,12 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 //ここから********************************************************************
 
 
-void B2aDetectorConstruction::ConstructSDandField()
+void TPCDetectorConstruction::ConstructSDandField()
 {
   // Sensitive detectors
 
-  G4String trackerChamberSDname = "B2/TrackerChamberSD";
-  B2TrackerSD* aTrackerSD = new B2TrackerSD(trackerChamberSDname,
+  G4String trackerChamberSDname = "TPC/TrackerChamberSD";
+  TPCTrackerSD* aTrackerSD = new TPCTrackerSD(trackerChamberSDname,
                                             "TrackerHitsCollection");
   G4SDManager::GetSDMpointer()->AddNewDetector(aTrackerSD);
   // Setting aTrackerSD to all logical volumes with the same name
@@ -571,7 +571,7 @@ void B2aDetectorConstruction::ConstructSDandField()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetTargetMaterial(G4String materialName)
+void TPCDetectorConstruction::SetTargetMaterial(G4String materialName)
 {
   G4NistManager* nistManager = G4NistManager::Instance();
 
@@ -596,7 +596,7 @@ void B2aDetectorConstruction::SetTargetMaterial(G4String materialName)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetChamberMaterial(G4String materialName)
+void TPCDetectorConstruction::SetChamberMaterial(G4String materialName)
 {
   G4NistManager* nistManager = G4NistManager::Instance();
 
@@ -626,14 +626,14 @@ void B2aDetectorConstruction::SetChamberMaterial(G4String materialName)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetMaxStep(G4double maxStep)
+void TPCDetectorConstruction::SetMaxStep(G4double maxStep)
 {
   if ((fStepLimit) && (maxStep > 0.)) fStepLimit->SetMaxAllowedStep(maxStep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetCheckOverlaps(G4bool checkOverlaps)
+void TPCDetectorConstruction::SetCheckOverlaps(G4bool checkOverlaps)
 {
   fCheckOverlaps = checkOverlaps;
 }

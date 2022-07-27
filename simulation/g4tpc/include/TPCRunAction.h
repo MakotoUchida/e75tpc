@@ -24,11 +24,11 @@
 // ********************************************************************
 //
 //
-/// \file B2RunAction.hh
-/// \brief Definition of the B2RunAction class
+/// \file TPCRunAction.hh
+/// \brief Definition of the TPCRunAction class
 
-#ifndef B2RunAction_h
-#define B2RunAction_h 1
+#ifndef TPCRunAction_h
+#define TPCRunAction_h 1
 
 #include "G4AnalysisManager.hh"
 #include "G4Run.hh"
@@ -47,10 +47,10 @@ class G4Run;
 
 /// Run action class
 
-class B2RunAction : public G4UserRunAction {
+class TPCRunAction : public G4UserRunAction {
 public:
-  B2RunAction();
-  virtual ~B2RunAction();
+  TPCRunAction();
+  virtual ~TPCRunAction();
 
   virtual void BeginOfRunAction(const G4Run* run);
   virtual void EndOfRunAction(const G4Run* run);

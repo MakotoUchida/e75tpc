@@ -24,11 +24,9 @@
 // ********************************************************************
 //
 //
-/// \file B2ActionInitialization.hh
-/// \brief Definition of the B2ActionInitialization class
 
-#ifndef B2ActionInitialization_h
-#define B2ActionInitialization_h 1
+#ifndef TPCActionInitialization_h
+#define TPCActionInitialization_h 1
 
 #include "G4VUserActionInitialization.hh"
 
@@ -37,10 +35,10 @@ class B4DetectorConstruction;
 /// Action initialization class.
 ///
 
-class B2ActionInitialization : public G4VUserActionInitialization {
+class TPCActionInitialization : public G4VUserActionInitialization {
 public:
-  B2ActionInitialization();
-  virtual ~B2ActionInitialization();
+  TPCActionInitialization();
+  virtual ~TPCActionInitialization();
 
   virtual void BuildForMaster() const;
   virtual void Build() const;
