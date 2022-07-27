@@ -42,59 +42,62 @@
 
 using namespace std;
 
+namespace E75 {
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-TPCRunAction::TPCRunAction()
-  : G4UserRunAction()
-{
-  // set printing event number per each 1000 events
-  G4RunManager::GetRunManager()->SetPrintProgress(1000);
+  TPCRunAction::TPCRunAction()
+    : G4UserRunAction()
+  {
+    // set printing event number per each 1000 events
+    G4RunManager::GetRunManager()->SetPrintProgress(1000);
+  }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+  TPCRunAction::~TPCRunAction()
+  {}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+  void TPCRunAction::BeginOfRunAction(const G4Run*)
+  {
+    //inform the runManager to save random number seed
+    G4RunManager::GetRunManager()->SetRandomNumberStore(false);
+
+    // Set random number
+    gRandom->SetSeed(22);
+
+    // ~~~~~~~~~~~~~~~~~~SetfilenameROOT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    std::string fileInput = globalGetFileName();
+    std::string filenameROOT = fileInput;
+    std::cout << "filenameROOT = " << filenameROOT << std::endl;
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+    fOutfile = new TFile(filenameROOT.c_str(), "RECREATE"); // output file
+    t1 = new TTree("tree", "SimHits"); // define the Tree
+    t1->Branch("nHits", &tnHits, "tnHits/I");
+    t1->Branch("PadID", &tPadID);
+    t1->Branch("PositionX", &tPosX);
+    t1->Branch("PositionY", &tPosY);
+    t1->Branch("PositionZ", &tPosZ);
+    t1->Branch("PositionXS", &tPosXS);
+    t1->Branch("PositionYS", &tPosYS);
+    t1->Branch("PositionZS", &tPosZS);
+
+    TPCRunAction* runAction2 = (TPCRunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
+    runAction2->InitCountEntry();
+  }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+  void TPCRunAction::EndOfRunAction(const G4Run*)
+  {
+    fOutfile->cd();
+    t1->Write();
+    fOutfile->Close();
+  }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-TPCRunAction::~TPCRunAction()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void TPCRunAction::BeginOfRunAction(const G4Run*)
-{
-  //inform the runManager to save random number seed
-  G4RunManager::GetRunManager()->SetRandomNumberStore(false);
-
-  // Set random number
-  gRandom->SetSeed(22);
-
-  // ~~~~~~~~~~~~~~~~~~SetfilenameROOT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  std::string fileInput = globalGetFileName();
-  std::string filenameROOT = fileInput;
-  std::cout << "filenameROOT = " << filenameROOT << std::endl;
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-  fOutfile = new TFile(filenameROOT.c_str(), "RECREATE"); // output file
-  t1 = new TTree("tree", "SimHits"); // define the Tree
-  t1->Branch("nHits", &tnHits, "tnHits/I");
-  t1->Branch("PadID", &tPadID);
-  t1->Branch("PositionX", &tPosX);
-  t1->Branch("PositionY", &tPosY);
-  t1->Branch("PositionZ", &tPosZ);
-  t1->Branch("PositionXS", &tPosXS);
-  t1->Branch("PositionYS", &tPosYS);
-  t1->Branch("PositionZS", &tPosZS);
-
-  TPCRunAction* runAction2 = (TPCRunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
-  runAction2->InitCountEntry();
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void TPCRunAction::EndOfRunAction(const G4Run*)
-{
-  fOutfile->cd();
-  t1->Write();
-  fOutfile->Close();
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

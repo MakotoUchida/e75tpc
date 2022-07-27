@@ -36,44 +36,45 @@
 #include "G4ios.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+namespace E75 {
 
-TPCEventAction::TPCEventAction()
-  : G4UserEventAction()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-TPCEventAction::~TPCEventAction()
-{}
+  TPCEventAction::TPCEventAction()
+    : G4UserEventAction()
+  {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void TPCEventAction::BeginOfEventAction(const G4Event*)
-{}
+  TPCEventAction::~TPCEventAction()
+  {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void TPCEventAction::EndOfEventAction(const G4Event* event)
-{
-  // get number of stored trajectories
+  void TPCEventAction::BeginOfEventAction(const G4Event*)
+  {}
 
-  G4TrajectoryContainer* trajectoryContainer = event->GetTrajectoryContainer();
-  G4int n_trajectories = 0;
-  if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-  // periodic printing
-  // std::cout << ">>> Event: " << event->GetEventID()  << std::endl;
-  G4int eventID = event->GetEventID();
-  if (eventID < 100 || eventID % 1000 == 0) {
-    G4cout << ">>> Event: " << eventID  << G4endl;
-    if (trajectoryContainer) {
-      G4cout << "    " << n_trajectories
-             << " trajectories stored in this event." << G4endl;
+  void TPCEventAction::EndOfEventAction(const G4Event* event)
+  {
+    // get number of stored trajectories
+
+    G4TrajectoryContainer* trajectoryContainer = event->GetTrajectoryContainer();
+    G4int n_trajectories = 0;
+    if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
+
+    // periodic printing
+    // std::cout << ">>> Event: " << event->GetEventID()  << std::endl;
+    G4int eventID = event->GetEventID();
+    if (eventID < 100 || eventID % 1000 == 0) {
+      G4cout << ">>> Event: " << eventID  << G4endl;
+      if (trajectoryContainer) {
+        G4cout << "    " << n_trajectories
+               << " trajectories stored in this event." << G4endl;
+      }
+      G4VHitsCollection* hc = event->GetHCofThisEvent()->GetHC(0);
+      G4cout << "    "
+             << hc->GetSize() << " hits stored in this event" << G4endl;
     }
-    G4VHitsCollection* hc = event->GetHCofThisEvent()->GetHC(0);
-    G4cout << "    "
-           << hc->GetSize() << " hits stored in this event" << G4endl;
   }
 }
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

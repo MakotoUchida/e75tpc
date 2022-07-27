@@ -30,20 +30,19 @@
 
 #include "G4VUserActionInitialization.hh"
 
-class B4DetectorConstruction;
-
 /// Action initialization class.
 ///
+namespace E75 {
 
-class TPCActionInitialization : public G4VUserActionInitialization {
-public:
-  TPCActionInitialization();
-  virtual ~TPCActionInitialization();
+  class TPCActionInitialization : public G4VUserActionInitialization {
+  public:
+    TPCActionInitialization();
+    virtual ~TPCActionInitialization();
 
-  virtual void BuildForMaster() const;
-  virtual void Build() const;
-};
-
+    virtual void BuildForMaster() const;
+    virtual void Build() const;
+  };
+} // namespace E75
 #endif
 
 

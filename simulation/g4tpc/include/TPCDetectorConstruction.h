@@ -42,52 +42,56 @@ class G4Material;
 class G4UserLimits;
 class G4GlobalMagFieldMessenger;
 
-class TPCDetectorMessenger;
 
+
+
+namespace E75 {
+
+  class TPCDetectorMessenger;
 /// Detector construction class to define materials, geometry
 /// and global uniform magnetic field.
 
-class TPCDetectorConstruction : public G4VUserDetectorConstruction {
-public:
-  TPCDetectorConstruction();
-  virtual ~TPCDetectorConstruction();
+  class TPCDetectorConstruction : public G4VUserDetectorConstruction {
+  public:
+    TPCDetectorConstruction();
+    virtual ~TPCDetectorConstruction();
 
-public:
-  virtual G4VPhysicalVolume* Construct();
-  virtual void ConstructSDandField();
+  public:
+    virtual G4VPhysicalVolume* Construct();
+    virtual void ConstructSDandField();
 
-  // Set methods
-  void SetTargetMaterial(G4String);
-  void SetChamberMaterial(G4String);
-  void SetMaxStep(G4double);
-  void SetCheckOverlaps(G4bool);
+    // Set methods
+    void SetTargetMaterial(G4String);
+    void SetChamberMaterial(G4String);
+    void SetMaxStep(G4double);
+    void SetCheckOverlaps(G4bool);
 
-private:
-  // methods
-  void DefineMaterials();
-  G4VPhysicalVolume* DefineVolumes();
+  private:
+    // methods
+    void DefineMaterials();
+    G4VPhysicalVolume* DefineVolumes();
 
-  // data members
-  G4int fNbOfChambers;
+    // data members
+    G4int fNbOfChambers;
 
-  G4LogicalVolume*   fLogicTarget;     // pointer to the logical Target
-  G4LogicalVolume**  fLogicChamber;    // pointer to the logical Chamber
-  G4LogicalVolume* tpcPadLV;
-  // G4LogicalVolume**  ftpcPadLV;
+    G4LogicalVolume*   fLogicTarget;     // pointer to the logical Target
+    G4LogicalVolume**  fLogicChamber;    // pointer to the logical Chamber
+    G4LogicalVolume* tpcPadLV;
+    // G4LogicalVolume**  ftpcPadLV;
 
-  G4Material*        fTargetMaterial;  // pointer to the target  material
-  G4Material*        fChamberMaterial; // pointer to the chamber material
+    G4Material*        fTargetMaterial;  // pointer to the target  material
+    G4Material*        fChamberMaterial; // pointer to the chamber material
 
-  G4UserLimits* fStepLimit;            // pointer to user step limits
+    G4UserLimits* fStepLimit;            // pointer to user step limits
 
-  TPCDetectorMessenger*  fMessenger;   // messenger
+    TPCDetectorMessenger*  fMessenger;   // messenger
 
-  static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger;
-  // magnetic field messenger
+    static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger;
+    // magnetic field messenger
 
-  G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
-};
+    G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
+  };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+}
 #endif

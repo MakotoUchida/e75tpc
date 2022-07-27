@@ -33,34 +33,36 @@
 #include "TPCEventAction.h"
 #include "E75MagneticField.h"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+
+namespace E75 {
 
 // コンストラクタがイニシャライザを使って書かれている
-TPCActionInitialization::TPCActionInitialization()
-  : G4VUserActionInitialization()
-{}
+  TPCActionInitialization::TPCActionInitialization()
+    : G4VUserActionInitialization()
+  {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-TPCActionInitialization::~TPCActionInitialization()
-{}
+  TPCActionInitialization::~TPCActionInitialization()
+  {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void TPCActionInitialization::BuildForMaster() const
-{
-  SetUserAction(new TPCRunAction);
-}
+  void TPCActionInitialization::BuildForMaster() const
+  {
+    SetUserAction(new TPCRunAction);
+  }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 // ユーザアクションクラスを定義
 // ここでは必須でもあるTPCPrimaryGeneratorActionの他にRunActionとEventAcyionを追加で定義している
-void TPCActionInitialization::Build() const
-{
-  SetUserAction(new TPCPrimaryGeneratorAction);
-  SetUserAction(new TPCRunAction);
-  SetUserAction(new TPCEventAction);
+  void TPCActionInitialization::Build() const
+  {
+    SetUserAction(new TPCPrimaryGeneratorAction);
+    SetUserAction(new TPCRunAction);
+    SetUserAction(new TPCEventAction);
+  }
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

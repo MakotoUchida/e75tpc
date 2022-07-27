@@ -35,16 +35,17 @@
 #include "globals.hh"
 
 /// Event action class
+namespace E75 {
 
-class TPCEventAction : public G4UserEventAction {
-public:
-  TPCEventAction();
-  virtual ~TPCEventAction();
+  class TPCEventAction : public G4UserEventAction {
+  public:
+    TPCEventAction();
+    virtual ~TPCEventAction();
 
-  virtual void  BeginOfEventAction(const G4Event*);
-  virtual void    EndOfEventAction(const G4Event*);
-};
+    virtual void  BeginOfEventAction(const G4Event*);
+    virtual void    EndOfEventAction(const G4Event*);
+  };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+}
 #endif

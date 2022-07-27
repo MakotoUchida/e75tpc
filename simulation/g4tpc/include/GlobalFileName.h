@@ -3,8 +3,9 @@
 
 #ifndef GlobalFileName_h
 #define GlobalFileName_h 1
+namespace E75 {
 
-void globalSetFileName(char* exp, char* run, char* st);
-std::string globalGetFileName();
-
+  void globalSetFileName(char* exp, char* run, char* st);
+  std::string globalGetFileName();
+}
 #endif

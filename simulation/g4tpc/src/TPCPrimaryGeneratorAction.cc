@@ -45,59 +45,61 @@
 #include <cmath>
 #include <random>
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-TPCPrimaryGeneratorAction::TPCPrimaryGeneratorAction()
-  : G4VUserPrimaryGeneratorAction()
-{
-  G4int nofParticles = 1;
-  fParticleGun = new G4ParticleGun(nofParticles);
+using namespace E75;
+namespace E75 {
 
-  // default particle kinematic
 
-  G4ParticleDefinition* particleDefinition
-    = G4ParticleTable::GetParticleTable()->FindParticle("pi-");
+  TPCPrimaryGeneratorAction::TPCPrimaryGeneratorAction()
+    : G4VUserPrimaryGeneratorAction()
+  {
+    G4int nofParticles = 1;
+    fParticleGun = new G4ParticleGun(nofParticles);
 
-  fParticleGun->SetParticleDefinition(particleDefinition);
-  fParticleGun->SetParticleMomentum(133.0 * MeV);
-}
+    // default particle kinematic
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    G4ParticleDefinition* particleDefinition
+      = G4ParticleTable::GetParticleTable()->FindParticle("pi-");
 
-TPCPrimaryGeneratorAction::~TPCPrimaryGeneratorAction()
-{
-  delete fParticleGun;
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void TPCPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
-{
-  // This function is called at the begining of event
-
-  // In order to avoid dependence of PrimaryGeneratorAction
-  // on DetectorConstruction class we get world volume
-  // from G4LogicalVolumeStore.
-
-  G4double worldZHalfLength = 0;
-  G4LogicalVolume* worldLV
-    = G4LogicalVolumeStore::GetInstance()->GetVolume("World");
-  G4Box* worldBox = NULL;
-  if (worldLV) worldBox = dynamic_cast<G4Box*>(worldLV->GetSolid());
-  if (worldBox) worldZHalfLength = worldBox->GetZHalfLength();
-  else  {
-    // G4cerr << "World volume of box not found." << G4endl;
-    // G4cerr << "Perhaps you have changed geometry." << G4endl;
-    // G4cerr << "The gun will be place in the center." << G4endl;
+    fParticleGun->SetParticleDefinition(particleDefinition);
+    fParticleGun->SetParticleMomentum(133.0 * MeV);
   }
 
-  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
-  G4double cosAlpha = 1. - 2 * G4UniformRand();
-  G4double sinAlpha = std::sqrt(1. - cosAlpha * cosAlpha);
-  G4double psi      = 2.0 * M_PI * G4UniformRand(); //psi uniform in [0, 2*pi]
-  G4ThreeVector dir(sinAlpha * std::cos(psi), sinAlpha * std::sin(psi), cosAlpha);
-  fParticleGun->SetParticleMomentumDirection(dir);
-  fParticleGun->GeneratePrimaryVertex(anEvent);
-}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+  TPCPrimaryGeneratorAction::~TPCPrimaryGeneratorAction()
+  {
+    delete fParticleGun;
+  }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+  void TPCPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+  {
+    // This function is called at the begining of event
+
+    // In order to avoid dependence of PrimaryGeneratorAction
+    // on DetectorConstruction class we get world volume
+    // from G4LogicalVolumeStore.
+
+    G4double worldZHalfLength = 0;
+    G4LogicalVolume* worldLV
+      = G4LogicalVolumeStore::GetInstance()->GetVolume("World");
+    G4Box* worldBox = NULL;
+    if (worldLV) worldBox = dynamic_cast<G4Box*>(worldLV->GetSolid());
+    if (worldBox) worldZHalfLength = worldBox->GetZHalfLength();
+    else  {
+      // G4cerr << "World volume of box not found." << G4endl;
+      // G4cerr << "Perhaps you have changed geometry." << G4endl;
+      // G4cerr << "The gun will be place in the center." << G4endl;
+    }
+
+    fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
+    G4double cosAlpha = 1. - 2 * G4UniformRand();
+    G4double sinAlpha = std::sqrt(1. - cosAlpha * cosAlpha);
+    G4double psi      = 2.0 * M_PI * G4UniformRand(); //psi uniform in [0, 2*pi]
+    G4ThreeVector dir(sinAlpha * std::cos(psi), sinAlpha * std::sin(psi), cosAlpha);
+    fParticleGun->SetParticleMomentumDirection(dir);
+    fParticleGun->GeneratePrimaryVertex(anEvent);
+  }
+}

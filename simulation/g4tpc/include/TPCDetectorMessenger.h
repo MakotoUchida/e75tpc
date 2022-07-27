@@ -33,7 +33,7 @@
 #include "globals.hh"
 #include "G4UImessenger.hh"
 
-class TPCDetectorConstruction;
+
 class G4UIdirectory;
 class G4UIcmdWithAString;
 class G4UIcmdWithADoubleAndUnit;
@@ -46,26 +46,29 @@ class G4UIcmdWithADoubleAndUnit;
 /// - /TPC/det/setTargetMaterial name
 /// - /TPC/det/setChamberMaterial name
 /// - /TPC/det/stepMax value unit
+namespace E75 {
 
-class TPCDetectorMessenger: public G4UImessenger {
-public:
-  TPCDetectorMessenger(TPCDetectorConstruction*);
-  virtual ~TPCDetectorMessenger();
+  class TPCDetectorConstruction;
 
-  virtual void SetNewValue(G4UIcommand*, G4String);
+  class TPCDetectorMessenger: public G4UImessenger {
+  public:
+    TPCDetectorMessenger(TPCDetectorConstruction*);
+    virtual ~TPCDetectorMessenger();
 
-private:
-  TPCDetectorConstruction*  fDetectorConstruction;
+    virtual void SetNewValue(G4UIcommand*, G4String);
 
-  G4UIdirectory*           fTPCDirectory;
-  G4UIdirectory*           fDetDirectory;
+  private:
+    TPCDetectorConstruction*  fDetectorConstruction;
 
-  G4UIcmdWithAString*      fTargMatCmd;
-  G4UIcmdWithAString*      fChamMatCmd;
+    G4UIdirectory*           fTPCDirectory;
+    G4UIdirectory*           fDetDirectory;
 
-  G4UIcmdWithADoubleAndUnit* fStepMaxCmd;
-};
+    G4UIcmdWithAString*      fTargMatCmd;
+    G4UIcmdWithAString*      fChamMatCmd;
+
+    G4UIcmdWithADoubleAndUnit* fStepMaxCmd;
+  };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+}
 #endif

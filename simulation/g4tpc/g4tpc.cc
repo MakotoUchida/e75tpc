@@ -1,7 +1,7 @@
 /**
- * E75 TPC simulation.                                                                                            
- * Makoto Uchida @ Fujioka-Lab.                                                                                                                           
- * Originally implemented by Taki @ Fujioka-lab. 
+ * E75 TPC simulation.
+ * Makoto Uchida @ Fujioka-Lab.
+ * Originally implemented by Taki @ Fujioka-lab.
  */
 
 #include "TPCDetectorConstruction.h"
@@ -39,7 +39,7 @@ int main(int argc, char** argv)
   if (argc == 1) {
     ui = new G4UIExecutive(argc, argv);
   } else if (argc == 5) {
-    globalSetFileName(argv[2], argv[3], argv[4]);
+    E75::globalSetFileName(argv[2], argv[3], argv[4]);
   } else {
     std::cout << "Invalid arguments" << std::endl;
     exit(0);
@@ -70,14 +70,14 @@ int main(int argc, char** argv)
 
   // Set mandatory initialization classes
   //
-  runManager->SetUserInitialization(new TPCDetectorConstruction());
+  runManager->SetUserInitialization(new E75::TPCDetectorConstruction());
 
   G4VModularPhysicsList* physicsList = new FTFP_BERT;
   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   runManager->SetUserInitialization(physicsList);
 
   // Set user action classes
-  runManager->SetUserInitialization(new TPCActionInitialization());
+  runManager->SetUserInitialization(new E75::TPCActionInitialization());
 
   // Initialize visualization
   //
