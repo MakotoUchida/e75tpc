@@ -6,19 +6,15 @@
 #include "G4ThreeVector.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
-
-
 #include "G4RunManager.hh"
-
-#include "TRandom.h"
-#include "G4SystemOfUnits.hh"
-
 #include "TPCTrackerSD.h"
 #include "TPCRunAction.h"
+#include <TRandom.h>
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 using namespace E75;
+
 namespace E75 {
 
   TPCTrackerSD::TPCTrackerSD(const G4String& name,
@@ -45,8 +41,7 @@ namespace E75 {
 
     // Add this collection in hce
 
-    G4int hcID
-      = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
+    G4int hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     hce->AddHitsCollection(hcID, fHitsCollection);
 
     // Initialize Hit No.
@@ -110,8 +105,8 @@ namespace E75 {
     // std::cout << "PadNo = " << PadID << std::endl;
 
     // Set Position Resolution
-    G4double Res = 700.0 * um;
-    G4double ResXY = 200.0 * um;
+    G4double Res = 700.0 * CLHEP::um;
+    G4double ResXY = 200.0 * CLHEP::um;
 
     // Smeared data with a position resolution along drift direction
     PosXS = gRandom->Gaus(newHit->GetPos().getX(), ResXY);

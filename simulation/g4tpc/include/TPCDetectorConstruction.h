@@ -42,9 +42,6 @@ class G4Material;
 class G4UserLimits;
 class G4GlobalMagFieldMessenger;
 
-
-
-
 namespace E75 {
 
   class TPCDetectorMessenger;
@@ -87,8 +84,8 @@ namespace E75 {
     TPCDetectorMessenger*  fMessenger;   // messenger
 
     static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger;
-    // magnetic field messenger
 
+    // magnetic field messenger
     G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
   };
 

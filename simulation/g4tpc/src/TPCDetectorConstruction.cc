@@ -28,8 +28,8 @@
 #include "G4UserLimits.hh"
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
-#include "G4SystemOfUnits.hh"
 #include "G4Transportation.hh"
+
 
 using namespace E75;
 namespace E75 {
@@ -100,17 +100,17 @@ namespace E75 {
 
     // P10ガス(Ar:Ch4=9:1)の定義
 
-    G4double atomAr  = 39.948 * g / mole ;
-    G4double atomH = 1.00794 * g / mole ;
-    G4double atomC = 12.0107 * g / mole ;
+    G4double atomAr  = 39.948 * CLHEP::g / CLHEP::mole ;
+    G4double atomH = 1.00794 * CLHEP::g / CLHEP::mole ;
+    G4double atomC = 12.0107 * CLHEP::g / CLHEP::mole ;
     G4int z, natoms, ncomponents;
     // G4double *symbol;
-    G4double densityMethane = 0.000717 * g / cm3;
-    G4double densityAr = 0.001784 * g / cm3;
+    G4double densityMethane = 0.000717 * CLHEP::g / CLHEP::cm3;
+    G4double densityAr = 0.001784 * CLHEP::g / CLHEP::cm3;
     G4double densityP10 = (1 / 10.) * densityMethane + (9 / 10.) * densityAr ;
 
-    G4double temperatureP10 = 300. *kelvin;
-    G4double pressureP10 = 1. *atmosphere;
+    G4double temperatureP10 = 300.0 * CLHEP::kelvin;
+    G4double pressureP10 = 1.0 * CLHEP::atmosphere;
 
     G4Element* elH = new G4Element("Hydrogen", "H", z = 1., atomH);
     G4Element* elC = new G4Element("Carbon", "C", z = 12., atomC);
@@ -123,21 +123,21 @@ namespace E75 {
 
     G4Material* P10gas = new G4Material("P10gas", densityP10, ncomponents = 2,
                                         kStateGas, temperatureP10, pressureP10);
-    P10gas -> AddMaterial(CH4, 10.0 * perCent) ;
-    P10gas -> AddMaterial(gasAr, 90.0 * perCent) ;
+    P10gas -> AddMaterial(CH4, 0.1) ;
+    P10gas -> AddMaterial(gasAr, 0.9) ;
 
     // 7Li標的の定義
-    G4double densityLi = 0.534 * g / cm3;
+    G4double densityLi = 0.534 * CLHEP::g / CLHEP::cm3;
     G4int izLi = 3;
-    G4double atomLi = 7.016 * g / mole ;
+    G4double atomLi = 7.016 * CLHEP::g / CLHEP::mole ;
     G4Material* Li7 = new G4Material("Lithium7", izLi, atomLi, densityLi);
 
     // 真空の定義
     G4double atomicNumber = 1.;
-    G4double massOfMole = 1.008 * g / mole;
-    G4double density = 1.e-25 * g / cm3;
-    G4double temperature = 2.73 * kelvin;
-    G4double pressure = 3.e-18 * pascal;
+    G4double massOfMole = 1.008 * CLHEP::g / CLHEP::mole;
+    G4double density = 1.e-25 * CLHEP::g / CLHEP::cm3;
+    G4double temperature = 2.73 * CLHEP::kelvin;
+    G4double pressure = 3.e-18 * CLHEP::pascal;
     G4Material* Vacuum =
       new G4Material("interGalactic", atomicNumber,
                      massOfMole, density, kStateGas,
@@ -146,7 +146,7 @@ namespace E75 {
     // 磁場の定義
     G4FieldManager* localFieldMgr = nullptr;
     if (true) {
-      G4MagneticField* magField = new G4UniformMagField(G4ThreeVector(0., 0., 2. * tesla));
+      G4MagneticField* magField = new G4UniformMagField(G4ThreeVector(0., 0., 2. * CLHEP::tesla));
       std::cout << "->->->----------> UNIFORM Magnetic Field On  <-----------<-<-<- " << std::endl;
       localFieldMgr = new G4FieldManager(magField) ;
     } else {
@@ -160,36 +160,36 @@ namespace E75 {
     //globalFieldMgr->CreateChordFinder(magField);
 
     // SolenoidのBore型のWorld作成
-    G4double worldRmin = 0 * mm; // 円柱型のため空洞無し
-    G4double worldRmax = 301.5 * mm; // Radius of bore
-    G4double worldDz = 501.5 * mm; // half of depth
+    G4double worldRmin = 0 * CLHEP::mm; // 円柱型のため空洞無し
+    G4double worldRmax = 301.5 * CLHEP::mm; // Radius of bore
+    G4double worldDz = 501.5 * CLHEP::mm; // half of depth
     G4double worldSPhi = 0 ;
     G4double worldDPhi = 2 * CLHEP::pi ;
 
     // 六角中型のTPC
-    G4double TPCpRmax = (557.361 / 2) * mm;  // TPCの六角柱外接円の半径
-    G4double TPCpRmin = (115.47 / 2) * mm;  // TPCの六角柱bore外接円の半径
-    G4double TPCpDepth =  748 * mm; // TPC有感領域の奥行き長さ
-    G4double TPCpDx1 = (TPCpRmin / 2) * mm;
-    G4double TPCpDx2 = (TPCpRmax / 2) * mm;
-    G4double TPCpDz = (TPCpDepth / 2) * mm;
-    G4double TPCpTheta = 0 * degree;
-    G4double TPCpPhi = 0 * degree;
+    G4double TPCpRmax = (557.361 / 2) * CLHEP::mm;  // TPCの六角柱外接円の半径
+    G4double TPCpRmin = (115.47 / 2) * CLHEP::mm;  // TPCの六角柱bore外接円の半径
+    G4double TPCpDepth =  748 * CLHEP::mm; // TPC有感領域の奥行き長さ
+    G4double TPCpDx1 = (TPCpRmin / 2) * CLHEP::mm;
+    G4double TPCpDx2 = (TPCpRmax / 2) * CLHEP::mm;
+    G4double TPCpDz = (TPCpDepth / 2) * CLHEP::mm;
+    G4double TPCpTheta = 0 * CLHEP::degree;
+    G4double TPCpPhi = 0 * CLHEP::degree;
 
-    G4double TPCpDy1 = (sqrt(3) / 4) * (TPCpRmax - TPCpRmin) * mm;
-    G4double TPCpDy2 = (sqrt(3) / 4) * (TPCpRmax - TPCpRmin) * mm; // the same as TPCpDy1
-    G4double TPCpDx3 = (TPCpRmin / 2) * mm; // the same as TPCpDx1
-    G4double TPCpDx4 = (TPCpRmax / 2) * mm; // the same as TPCpDx2
-    G4double TPCpAlp1 = 0 * degree;
-    G4double TPCpAlp2 = 0 * degree;
+    G4double TPCpDy1 = (sqrt(3) / 4) * (TPCpRmax - TPCpRmin) * CLHEP::mm;
+    G4double TPCpDy2 = (sqrt(3) / 4) * (TPCpRmax - TPCpRmin) * CLHEP::mm; // the same as TPCpDy1
+    G4double TPCpDx3 = (TPCpRmin / 2) * CLHEP::mm; // the same as TPCpDx1
+    G4double TPCpDx4 = (TPCpRmax / 2) * CLHEP::mm; // the same as TPCpDx2
+    G4double TPCpAlp1 = 0 * CLHEP::degree;
+    G4double TPCpAlp2 = 0 * CLHEP::degree;
     G4double TPCcenter = TPCpRmin * (sqrt(3) / 2.0) + TPCpDy1; // 中心軸から各素片中心までの距離
 
     // Sizes of the principal geometrical components (solids)
 
-    G4double chamberSpacing = 80 * cm; // from chamber center to center!
+    G4double chamberSpacing = 80 * CLHEP::cm; // from chamber center to center!
 
-    G4double chamberWidth = 20.0 * cm; // width of the chambers
-    G4double targetLength =  5.0 * cm; // full length of Targe
+    G4double chamberWidth = 20.0 * CLHEP::cm; // width of the chambers
+    G4double targetLength =  5.0 * CLHEP::cm; // full length of Targe
 
     G4double trackerLength = (fNbOfChambers + 1) * chamberSpacing;
 
@@ -208,7 +208,7 @@ namespace E75 {
     G4GeometryManager::GetInstance()->SetWorldMaximumExtent(worldLength);
 
     G4cout << "Computed tolerance = "
-           << G4GeometryTolerance::GetInstance()->GetSurfaceTolerance() / mm
+           << G4GeometryTolerance::GetInstance()->GetSurfaceTolerance() / CLHEP::mm
            << " mm" << G4endl;
 
 
@@ -252,8 +252,8 @@ namespace E75 {
     G4double phiTotal = 2 * CLHEP::pi;
     G4int numSide = 6;
     G4int numZPlanes = 2;
-    G4double rInner[] = {(sqrt(3) / 2)* TPCpRmin * mm, (sqrt(3) / 2)* TPCpRmin * mm};
-    G4double rOuter[] = {(sqrt(3) / 2)* TPCpRmax * mm, (sqrt(3) / 2)* TPCpRmax * mm};
+    G4double rInner[] = {(sqrt(3) / 2)* TPCpRmin* CLHEP::mm, (sqrt(3) / 2)* TPCpRmin* CLHEP::mm};
+    G4double rOuter[] = {(sqrt(3) / 2)* TPCpRmax* CLHEP::mm, (sqrt(3) / 2)* TPCpRmax* CLHEP::mm};
     G4double zPlane[] = {-TPCpDepth / 2., TPCpDepth / 2.};
 
     G4Polyhedra* tpcConeS = new G4Polyhedra("TPCCone", phiStart, phiTotal, numSide, numZPlanes, zPlane, rInner, rOuter);
@@ -274,12 +274,12 @@ namespace E75 {
 
 
     // パッド中央を通る有感領域を設定
-    G4double hPad = 14.5 * mm; // Hight of Cathode Pad
-    G4double wPad = 5.1 * mm; // Wide of Cathode Pad;
-    G4double dPad = 0.1 * mm; // Distance of Pad on hight direction
+    G4double hPad = 14.5 * CLHEP::mm; // Hight of Cathode Pad
+    G4double wPad = 5.1 * CLHEP::mm; // Wide of Cathode Pad;
+    G4double dPad = 0.1 * CLHEP::mm; // Distance of Pad on hight direction
     G4int numPad = 9;
-    G4double frameThin = 12 * mm; // Thin of sensitive detectors
-    G4double thinSD = 0.10 * mm; // Hit しないパッドが多かったため0.1mm->1.0mmに変更
+    G4double frameThin = 12 * CLHEP::mm; // Thin of sensitive detectors
+    G4double thinSD = 0.10 * CLHEP::mm; // Hit しないパッドが多かったため0.1mm->1.0mmに変更
     G4int numSideSD = 6;
     G4int numZPlanesSD = 2;
 
@@ -304,7 +304,7 @@ namespace E75 {
 
       tpcPadLV->SetVisAttributes(G4VisAttributes(G4Colour(38 / 255., 198 / 255., 218 / 255.)));
       // Step Sizeを変更
-      G4double maxStep = 0.040 * mm; // パッド部の厚さthinSDの半分以下程度
+      G4double maxStep = 0.040 * CLHEP::mm; // パッド部の厚さthinSDの半分以下程度
       G4UserLimits* fstepLimit = new G4UserLimits(maxStep);
       tpcPadLV->SetUserLimits(fstepLimit);
 
@@ -364,9 +364,9 @@ namespace E75 {
     }*/
 
     // 7Li標的
-    G4double targetLiWidth = 70.0 * mm; // x方向
-    G4double targetLiHight = 40.0 * mm; // y方向
-    G4double targetLiLength = 200.0 * mm; // z方向
+    G4double targetLiWidth = 70.0 * CLHEP::mm; // x方向
+    G4double targetLiHight = 40.0 * CLHEP::mm; // y方向
+    G4double targetLiLength = 200.0 * CLHEP::mm; // z方向
     G4double targetLiPx = targetLiWidth / 2.0;
     G4double targetLiPy = targetLiHight / 2.0;
     G4double targetLiPz = targetLiLength / 2.0;
@@ -397,7 +397,7 @@ namespace E75 {
     G4ThreeVector positionTarget = G4ThreeVector(0, 0, -(targetLength + trackerSize));
 
     G4Tubs* targetS
-      = new G4Tubs("target", 0., targetRadius, targetLength, 0.*deg, 360.*deg);
+      = new G4Tubs("target", 0., targetRadius, targetLength, 0.*CLHEP::degree, 360.*CLHEP::degree);
     fLogicTarget
       = new G4LogicalVolume(targetS, fTargetMaterial, "Target", 0, 0, 0);
 
@@ -413,7 +413,7 @@ namespace E75 {
                        fCheckOverlaps); // checking overlaps
     */
 
-    G4cout << "Target is " << 2 * targetLength / cm << " cm of "
+    G4cout << "Target is " << 2 * targetLength / CLHEP::cm << " cm of "
            << fTargetMaterial->GetName() << G4endl;
 
 
@@ -424,7 +424,7 @@ namespace E75 {
     G4ThreeVector positionTracker = G4ThreeVector(0, 0, 0);
 
     G4Tubs* trackerS
-      = new G4Tubs("tracker", 0, trackerSize, trackerSize, 0.*deg, 360.*deg);
+      = new G4Tubs("tracker", 0, trackerSize, trackerSize, 0.*CLHEP::degree, 360.*CLHEP::degree);
     G4LogicalVolume* trackerLV
       = new G4LogicalVolume(trackerS, air, "Tracker", 0, 0, 0);
 
@@ -457,9 +457,9 @@ namespace E75 {
 
     G4cout << "There are " << fNbOfChambers << " chambers in the tracker region. "
            << G4endl
-           << "The chambers are " << chamberWidth / cm << " cm of "
+           << "The chambers are " << chamberWidth / CLHEP::cm << " cm of "
            << fChamberMaterial->GetName() << G4endl
-           << "The distance between chamber is " << chamberSpacing / cm << " cm"
+           << "The distance between chamber is " << chamberSpacing / CLHEP::cm << " cm"
            << G4endl;
 
 // G4double firstPosition = -trackerSize + chamberSpacing;
@@ -486,7 +486,7 @@ namespace E75 {
       G4double rmax =  rmaxFirst + copyNo * rmaxIncr;
 
       G4Tubs* chamberS
-        = new G4Tubs("Chamber_solid", 0, rmax, halfWidth, 0.*deg, 360.*deg);
+        = new G4Tubs("Chamber_solid", 0, rmax, halfWidth, 0.*CLHEP::degree, 360.*CLHEP::degree);
 
       fLogicChamber[copyNo] =
         new G4LogicalVolume(chamberS, fChamberMaterial, "Chamber_LV", 0, 0, 0);

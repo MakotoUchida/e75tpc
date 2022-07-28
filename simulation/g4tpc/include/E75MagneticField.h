@@ -4,12 +4,12 @@
 #ifndef E75MagneticField_h
 #define E75MagneticField_h 1
 
+#include "TPCDetectorConstruction.h"
 #include "G4MagneticField.hh"
 #include "vector"
 #include <iostream>
 #include <fstream>
-#include "G4UnitsTable.hh"
-#include "G4SystemOfUnits.hh"
+
 namespace E75 {
 
   class E75MagneticField : public G4MagneticField {

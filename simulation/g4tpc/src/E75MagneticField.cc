@@ -2,7 +2,12 @@
 /// \brief Implementation of the E75MagneticField class
 
 #include "E75MagneticField.h"
-#include "G4UnitsTable.hh"
+#include "G4Material.hh"
+#include "G4NistManager.hh"
+#include "G4SDManager.hh"
+
+
+using namespace E75;
 namespace E75 {
 
   E75MagneticField::E75MagneticField(): G4MagneticField()
@@ -49,9 +54,9 @@ namespace E75 {
       for (iy = 0; iy < fNy; iy++) {
         file >> zval >> yval >> by >> bz ;
         if (iy == 0 && iz == 0) {
-          G4double fMiniyCM = yval * cm;
+          G4double fMiniyCM = yval * CLHEP::cm;
           fMiniy = fMiniyCM;
-          G4double fMinizCM = zval * cm;
+          G4double fMinizCM = zval * CLHEP::cm;
           fMiniz = fMinizCM;
         }
         fYField[iz][iy] = by;
@@ -64,8 +69,8 @@ namespace E75 {
     // lock.unlock();
     //
 
-    fMaxiy = yval * cm;
-    fMaxiz = zval * cm;
+    fMaxiy = yval * CLHEP::cm;
+    fMaxiz = zval * CLHEP::cm;
 
     G4cout << "\n ---> ... done reading " << G4endl;
 
@@ -158,19 +163,19 @@ namespace E75 {
                      + w01 * fYField[zindex][yindex + 1]
                      + w10 * fYField[zindex + 1][yindex]
                      + w11 * fYField[zindex + 1][yindex + 1]
-                    ) * 0.1 * tesla ;
+                    ) * 0.1 * CLHEP::tesla;
       } else {
         Bfield[1] = -(w00 * fYField[zindex][yindex]
                       + w01 * fYField[zindex][yindex + 1]
                       + w10 * fYField[zindex + 1][yindex]
                       + w11 * fYField[zindex + 1][yindex + 1]
-                     ) * 0.1 * tesla ;
+                     ) * 0.1 * CLHEP::tesla;
       }
       Bfield[2] = (w00 * fZField[zindex][yindex]
                    + w01 * fZField[zindex][yindex + 1]
                    + w10 * fZField[zindex + 1][yindex]
                    + w11 * fZField[zindex + 1][yindex + 1]
-                  ) * 0.1 * tesla ;
+                  ) * 0.1 * CLHEP::tesla;
 
       /*
       // Byはyz平面上で原点対象
@@ -194,13 +199,13 @@ namespace E75 {
       Bfield[0] = 0;
       if ((y * z) >= 0) {
         Bfield[1] = (w0 * fYField[zindex][yindex]
-                     + w1 * fYField[zindex + 1][yindex]) * 0.1 * tesla;
+                     + w1 * fYField[zindex + 1][yindex]) * 0.1 * CLHEP::tesla;
       } else {
         Bfield[1] = -(w0 * fYField[zindex][yindex]
-                      + w1 * fYField[zindex + 1][yindex]) * 0.1 * tesla;
+                      + w1 * fYField[zindex + 1][yindex]) * 0.1 * CLHEP::tesla;
       }
       Bfield[2] = (w0 * fZField[zindex][yindex]
-                   + w1 * fZField[zindex + 1][yindex]) * 0.1 * tesla;
+                   + w1 * fZField[zindex + 1][yindex]) * 0.1 * CLHEP::tesla;
 
       // G4cout << " position y > 30. cm (defined magnetic fileld) " << G4endl;
       // G4cout << "(x,y,z) = " << "(" << x << ", " << y << ", " << z << ") "
